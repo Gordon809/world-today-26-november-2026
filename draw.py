@@ -89,15 +89,20 @@ def flame_layer(cx, base_y, scale):
 
 
 def smoke_layer():
+    """Soft, translucent smoke drifting above the fire.
+
+    Kept light (alpha ~110) so the puffs read as haze behind the flames
+    rather than solid grey blobs against the night sky.
+    """
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
     puffs = [(250, 100, 80), (330, 82, 95), (430, 95, 85), (520, 80, 95),
              (620, 98, 80), (700, 85, 90), (180, 125, 70), (790, 115, 75)]
     for x, y, r in puffs:
-        d.ellipse([x - r, y - r * 0.7, x + r, y + r * 0.7], fill=(60, 55, 55, 150))
+        d.ellipse([x - r, y - r * 0.7, x + r, y + r * 0.7], fill=(60, 55, 55, 110))
         d.ellipse([x - r * 0.6, y - r * 0.5, x + r * 0.6, y + r * 0.5],
-                  fill=(90, 82, 80, 130))
-    return layer.filter(ImageFilter.GaussianBlur(14))
+                  fill=(90, 82, 80, 95))
+    return layer.filter(ImageFilter.GaussianBlur(16))
 
 
 def skyline(draw, base_y, colour):
